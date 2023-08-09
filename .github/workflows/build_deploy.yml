@@ -52,4 +52,5 @@ jobs:
         uses: peter-evans/close-issue@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: 4
           comment: 'Deployment Completed 🌟'

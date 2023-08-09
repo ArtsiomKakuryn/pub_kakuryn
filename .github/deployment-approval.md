@@ -5,8 +5,7 @@ labels: deployment-requested
 
 Deployment Approval requested from {{ payload.sender.login }}.
 
-Comment "Approved" to kick the deployment off.
-
+Issue will be automatically closed after success deploy
 
 === DON'T CHANGE BELOW THIS LINE
 ```json target_payload

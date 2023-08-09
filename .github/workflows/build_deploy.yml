@@ -4,18 +4,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  prepear_to_deploy:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Simulate a Build
-        run: echo 'hello youtube'
+        run: echo 'Terraform plan'
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [prepear_to_deploy]
     environment: 
       name: dev
       url: 'https://test.com'

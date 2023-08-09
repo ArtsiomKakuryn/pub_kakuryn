@@ -6,13 +6,13 @@ on:
 jobs:
   prepear_to_deploy:
     runs-on: ubuntu-latest
-
+    permissions: write-all
     steps:
       - uses: actions/checkout@v2
 
       - name: Simulate a Build
         run: echo 'Terraform plan'
-        
+
       - name: Create an issue
         uses: JasonEtco/create-an-issue@v2.6.0
         env:

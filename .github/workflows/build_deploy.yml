@@ -39,7 +39,6 @@ jobs:
       - name: deploy Dev
         run: echo "Deploy dev!!!"
         
-
   close-issue:
     permissions: write-all
     needs: [deploy]
@@ -52,5 +51,5 @@ jobs:
         uses: peter-evans/close-issue@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: 4
+          issue-number: ${{ github.event.issue.number }}
           comment: 'Deployment Completed 🌟'

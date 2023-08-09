@@ -12,6 +12,15 @@ jobs:
 
       - name: Simulate a Build
         run: echo 'Terraform plan'
+        
+      - name: Create an issue
+        uses: JasonEtco/create-an-issue@v2.6.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ENVIRONMENT: Dev
+          RUNNUMBER: ${{ github.run_number  }}
+        with:         
+          filename: .github/deployment-approval.md
 
   deploy:
     runs-on: ubuntu-latest

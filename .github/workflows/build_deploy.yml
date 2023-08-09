@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Simulate a Build
+        run: echo 'hello youtube'
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment: 
+      name: dev
+      url: 'https://test.com'
+    steps:
+      - name: deploy Dev
+        run: echo "Deploy dev!!!"
+        

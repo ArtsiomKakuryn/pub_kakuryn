@@ -6,21 +6,24 @@ on:
 jobs:
   prepear_to_deploy:
     runs-on: ubuntu-latest
-    permissions: write-all
     steps:
       - uses: actions/checkout@v2
 
       - name: Simulate a Build
         run: echo 'Terraform plan'
 
-      - name: Create an issue
-        uses: JasonEtco/create-an-issue@v2.6.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ENVIRONMENT: Dev
-          RUNNUMBER: ${{ github.run_number  }}
-        with:         
-          filename: .github/deployment-approval.md
+  open-issue:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+    - name: Create an issue
+      uses: JasonEtco/create-an-issue@v2.6.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ENVIRONMENT: Dev
+        RUNNUMBER: ${{ github.run_number  }}
+      with:         
+        filename: .github/deployment-approval.md
 
   deploy:
     runs-on: ubuntu-latest
@@ -32,3 +35,16 @@ jobs:
       - name: deploy Dev
         run: echo "Deploy dev!!!"
         
+
+  close-issue:
+    permissions: write-all
+    needs: [deploy]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest  
+    steps:
+      - name: Close Issue
+        if: ${{ needs.deploy.result == 'success' }}
+        uses: peter-evans/close-issue@v1.0.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          comment: 'Deployment Completed 🌟'

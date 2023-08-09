@@ -16,7 +16,7 @@ jobs:
     permissions: write-all
     needs: [prepear_to_deploy]
     outputs:
-      ISSUE-NUMBER: ${{ steps.create-issue.outputs.number }}
+      issue-number: ${{ steps.create-issue.outputs.number }}
     steps:
 
     - uses: actions/checkout@v2
@@ -43,17 +43,21 @@ jobs:
       - name: deploy Dev
         run: echo "Deploy dev!!!"
         
-  # close-issue:
-  #   permissions: write-all
-  #   needs: [deploy]
-  #   if: ${{ always() }}
-  #   runs-on: ubuntu-latest  
-  #   steps:
+  close-issue:
+    permissions: write-all
+    needs: [open-issue, deploy]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest  
+    steps:
 
-  #     - name: Close Issue
-  #       if: ${{ needs.deploy.result == 'success' }}
-  #       uses: peter-evans/close-issue@v3
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         issue-number: ${{ github.event.issue.number }}
-  #         comment: 'Deployment Completed 🌟'
+      - name: Close Issue
+        if: ${{ needs.deploy.result == 'success' }}
+        uses: peter-evans/close-issue@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ needs.open-issue.outputs.issue-number }}
+          comment: 'Deployment Completed 🌟'
+
+
+  # needs: changes
+  # if: needs.changes.outputs.risk_core_changed == 'true'

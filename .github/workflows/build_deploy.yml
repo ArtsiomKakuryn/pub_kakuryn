@@ -57,7 +57,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ needs.open-issue.outputs.issue-number }}
           comment: 'Deployment Completed 🌟'
-
-
-  # needs: changes
-  # if: needs.changes.outputs.risk_core_changed == 'true'
